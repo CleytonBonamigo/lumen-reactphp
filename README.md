@@ -4,7 +4,7 @@ ReactPHP Server on Lumen 5.2, basically a fork of [nazo/laravel-reactphp](https:
 - Install via composer
 
 ```sh
-composer require nazo/laravel-reactphp
+composer require cleytonbonamigo/lumen-reactphp
 ```
 
 - After installing, add provider on bootstrap/app.php on your project.
