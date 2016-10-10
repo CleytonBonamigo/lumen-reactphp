@@ -100,16 +100,18 @@ class HttpSession {
 
 	protected function handleRequest(\React\Http\Request $request, \React\Http\Response $response)
 	{
-		$requestUri = $this->getRequestUri($request->getHeaders(), $request->getPath());
+		$request_headers = $request->getHeaders();
+		$requestUri = $this->getRequestUri($request_headers, $request->getPath());
 		$laravel_request = \Request::create(
-			$this->getRequestUri($request->getHeaders(), $request->getPath()),
+			$this->getRequestUri($request_headers, $request->getPath()),
 			$request->getMethod(),
 			array_merge($request->getQuery(), $this->post_params),
-			$this->getCookies($request->getHeaders()),
+			$this->getCookies($request_headers),
 			[],
 			[],
 			$this->request_body
 		);
+		$laravel_request->headers->add($request_headers);
 		$laravel_response = \App::handle($laravel_request);
 		$headers = array_merge($laravel_response->headers->allPreserveCase(), $this->buildCookies($laravel_response->headers->getCookies()));
 		$response->writeHead($laravel_response->getStatusCode(), $headers);
